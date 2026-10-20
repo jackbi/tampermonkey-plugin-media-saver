@@ -2,7 +2,7 @@
 // @name         媒体嗅探下载器
 // @name:en      Media Saver
 // @namespace    tampermonkey-plugin/media-saver
-// @version      0.2.0
+// @version      0.2.1
 // @description  嗅探并下载网页里的视频与图片（微博 / 知乎 / 小红书等），支持 HLS(m3u8) 下载、AES-128 解密、原图还原、批量存图
 // @description:en  Sniff and download videos/images from web pages, with HLS (m3u8) + AES-128 support and original-image restore.
 // @author       wayne
@@ -50,7 +50,7 @@
  * ============================================================ */
 
 const MS = {
-  VERSION: '0.2.0',
+  VERSION: '0.2.1',
   NAME: '媒体嗅探下载器',
 };
 
