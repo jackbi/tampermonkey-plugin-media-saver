@@ -1,0 +1,38 @@
+{
+  "name": "tampermonkey-plugin-media-saver",
+  "version": "0.2.0",
+  "description": "嗅探并下载网页里的视频与图片（微博 / 知乎 / 小红书），支持 HLS(m3u8)、AES-128 解密与原图还原",
+  "private": true,
+  "type": "module",
+  "author": "wayne",
+  "license": "MIT",
+  "homepage": "https://github.com/jackbi/tampermonkey-plugin-media-saver",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackbi/tampermonkey-plugin-media-saver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jackbi/tampermonkey-plugin-media-saver/issues"
+  },
+  "keywords": [
+    "tampermonkey",
+    "userscript",
+    "weibo",
+    "zhihu",
+    "xiaohongshu",
+    "hls",
+    "m3u8",
+    "video-downloader"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "fixtures": "node test/make-fixtures.mjs",
+    "pretest": "node test/make-fixtures.mjs",
+    "test": "node test/run.mjs",
+    "demo": "node test/serve.mjs",
+    "bump": "node scripts/bump-version.mjs"
+  }
+}

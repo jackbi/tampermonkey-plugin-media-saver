@@ -103,6 +103,9 @@ ffmpeg -i ~/Downloads/"xxx.ts" -c copy ~/Downloads/"xxx.mp4"
 ## 项目结构
 
 ```
+package.json          常用命令入口（build / test / demo / bump）
+build.mjs             把 src/*.js 拼成单个 dist/media-saver.user.js
+scripts/bump-version.mjs  同步三处版本号并重新构建
 src/00-header.js      UserScript 元数据（@match / @grant / @connect）
 src/10-core.js        配置持久化、事件总线、通用工具
 src/20-net.js         GM 请求封装 + 嗅探引擎（资源时间线 / XHR / fetch / MSE 检测）
@@ -112,41 +115,35 @@ src/50-hls.js         m3u8 解析、AES-128 解密、分片合并
 src/60-sites.js       站点规则与页面内嵌数据扫描
 src/70-ui.js          悬浮面板
 src/80-boot.js        启动、菜单、SPA 监听、跨框架汇总
+test/                 端到端自检、测试素材生成、本地演示页
 ```
 
-无任何第三方依赖，`build.mjs` 按文件名顺序拼接成一个 `.user.js`：
+无任何第三方依赖（`package.json` 里没有 `dependencies`），只用 Node 18+ 自带能力：
 
 ```bash
-node build.mjs          # 生成 dist/media-saver.user.js
-node test/run.mjs       # 110 项端到端自检（需要下方测试素材）
+npm run build     # 生成 dist/media-saver.user.js
+npm test          # 116 项端到端自检（首次会自动生成测试素材）
+npm run demo      # 起本地演示页 http://127.0.0.1:8731/demo.html
+npm run bump 0.2.1  # 三处版本号一起改，并重新构建
 ```
 
 ## 测试
 
 自检覆盖真实 HLS 素材：TS+AES-128 加密流、fMP4 流、Range 分块下载，产物用 ffprobe 校验时长与轨道，
-并比对 Node 与浏览器两条链路的 SHA-256 是否逐字节一致。先生成素材（需要 ffmpeg）：
+并比对 Node 与浏览器两条链路的 SHA-256 是否逐字节一致。
 
 ```bash
-mkdir -p /tmp/ms-fix/ts /tmp/ms-fix/fmp4 && cd /tmp/ms-fix
-ffmpeg -y -f lavfi -i "testsrc=size=320x240:rate=15:duration=5" -f lavfi -i "sine=frequency=440:duration=5" \
-  -c:v libx264 -preset ultrafast -pix_fmt yuv420p -force_key_frames "expr:gte(t,n_forced*1)" -c:a aac -shortest src.mp4
-head -c 16 /dev/urandom > enc.key
-printf 'http://127.0.0.1:8731/enc.key\n/tmp/ms-fix/enc.key\n' > enc.keyinfo
-ffmpeg -y -i src.mp4 -c copy -hls_time 1 -hls_playlist_type vod -hls_key_info_file enc.keyinfo \
-  -hls_segment_filename 'ts/seg%03d.ts' ts/index.m3u8
-ffmpeg -y -i src.mp4 -c copy -hls_time 1 -hls_playlist_type vod -hls_segment_type fmp4 \
-  -hls_fmp4_init_filename init.mp4 -hls_segment_filename 'fmp4/f%03d.m4s' fmp4/index.m3u8
-printf '#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=320x240\nfmp4/index.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=300000,RESOLUTION=160x120\nts/index.m3u8\n' > master.m3u8
-printf 'not a playlist' > index.html
-ffmpeg -y -f lavfi -i "testsrc2=size=400x300:duration=1" -frames:v 1 photo1.jpg
-ffmpeg -y -f lavfi -i "gradients=size=400x300:duration=1" -frames:v 1 photo2.jpg
-cd - && node test/run.mjs
+npm test            # 会自动调用 npm run fixtures 生成素材（需要 ffmpeg）
+npm run fixtures    # 只生成素材到 /tmp/ms-fix（已存在则跳过）
 ```
+
+测试需要 ffmpeg 与 ffprobe（macOS：`brew install ffmpeg`）。素材与产物都在 `/tmp` 下，可随时删除，
+下次 `npm test` 会重新生成。
 
 浏览器冒烟测试（可选）：
 
 ```bash
-node test/serve.mjs          # 起演示页 http://127.0.0.1:8731/demo.html
+npm run demo        # 起演示页 http://127.0.0.1:8731/demo.html
 ```
 
 ## 调试
