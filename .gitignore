@@ -1,0 +1,17 @@
+# 依赖（本项目无依赖，留着以防以后引入）
+node_modules/
+
+# 系统与编辑器
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# 测试 / 调试产物
+.playwright-mcp/
+/panel.png
+*.heapsnapshot
+
+# 本地素材（README 里的 ffmpeg 命令会生成到 /tmp）
+test/fixtures/*.mp4
+test/fixtures/*.ts

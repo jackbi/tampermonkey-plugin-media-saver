@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>微博 - 媒体嗅探演示页</title>
+  <style>
+    body { font-family: -apple-system, "PingFang SC", system-ui, sans-serif; padding: 24px 28px; max-width: 720px; color: #222; }
+    h1 { font-size: 20px; }
+    h2 { font-size: 14px; color: #666; margin-top: 26px; }
+    .grid { display: flex; gap: 10px; flex-wrap: wrap; }
+    img { border-radius: 8px; }
+    button { padding: 6px 12px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>媒体嗅探下载器 · 本地演示页</h1>
+  <p>这个页面用来在真实浏览器里冒烟测试面板：视频、图片、内嵌 JSON 图集、HLS 播放列表各来一份。</p>
+
+  <script>
+    // 演示环境是 127.0.0.1，命中不到微博/知乎/小红书的站点规则，
+    // 所以这里先打开 generic 开关（真实使用时不需这一步）
+    localStorage.setItem('ms.conf', JSON.stringify({
+      debug: true,
+      showDecor: true,
+      streamToDisk: false,
+      siteEnabled: { generic: true, weibo: true, zhihu: true, xiaohongshu: true }
+    }));
+  </script>
+
+  <h2>视频（点播放会被嗅探到）</h2>
+  <video id="demo-video" src="/src.mp4" controls width="320"></video>
+
+  <h2>图片（模拟图集）</h2>
+  <div class="grid">
+    <img src="/photo1.jpg" width="220" alt="photo1">
+    <img src="/photo2.jpg" width="220" alt="photo2">
+  </div>
+
+  <h2>脚本内嵌数据（模拟微博 pic_ids 图集）</h2>
+  <script>
+    window.FM = { view(data) { window.__fmView = data; } };
+    FM.view({ pic_ids: ['006APoFYly1gabcdefghi', '006APoFYly1gabcdefghj'] });
+  </script>
+
+  <h2>HLS 播放列表（模拟播放器请求）</h2>
+  <button id="fetch-hls">请求 m3u8</button>
+  <button id="play-video">开始播放视频</button>
+
+  <h2>模拟微博卡片（检查"能不能认出是哪个视频"）</h2>
+  <div class="wb-card">
+    <a class="wb-name" href="/u/1234567890">厨神小明</a>
+    <p class="wb-text">今天的晚饭真好吃，做了两个小时，蒜香排骨配手擀面</p>
+    <video src="/src.mp4" poster="/photo1.jpg" controls width="240"></video>
+  </div>
+  <div class="wb-card">
+    <a class="wb-name" href="/u/9988">旅行的阿May</a>
+    <p class="wb-text">海边日落，风很大但是很值，下次还来</p>
+    <video src="/src.mp4?take=2" controls width="240"></video>
+  </div>
+
+  <script src="/media-saver.user.js"></script>
+  <script>
+    document.getElementById('fetch-hls').onclick = async () => {
+      const res = await fetch('/ts/index.m3u8');
+      const text = await res.text();
+      const variants = await fetch('/master.m3u8').then((r) => r.text());
+      document.title = '已请求 m3u8（' + text.split('\n').length + ' 行 / master ' + variants.split('\n').length + ' 行）';
+    };
+    document.getElementById('play-video').onclick = () => document.getElementById('demo-video').play();
+  </script>
+</body>
+</html>
