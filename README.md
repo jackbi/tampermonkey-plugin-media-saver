@@ -20,6 +20,8 @@
 2. 打开 `dist/media-saver.user.js`，全选复制；
 3. Tampermonkey 面板 → 「添加新脚本」→ 粘贴覆盖 → `Ctrl/Cmd + S` 保存。
 
+想在 GreasyFork 上架：表单字段、详细描述与同步设置都整理在 [greasyfork/listing.md](greasyfork/listing.md)。
+
 首次在某些域名上下载时，Tampermonkey 会弹出「是否允许访问 xxx.com」，选**允许**（跨域拿媒体必须走这一步）。
 
 默认只在 **微博 / 知乎 / 小红书** 三个站点注入，其它网站完全不加载：
