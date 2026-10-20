@@ -8,6 +8,14 @@
 
 ## 安装
 
+仓库地址：<https://github.com/jackbi/tampermonkey-plugin-media-saver>
+
+**一键安装**：装好 Tampermonkey 后，直接打开
+<https://raw.githubusercontent.com/jackbi/tampermonkey-plugin-media-saver/main/dist/media-saver.user.js>
+会弹出安装页。国内网络访问 `raw.githubusercontent.com` 不通时，用下面任一方式。
+
+**手动安装**：
+
 1. 浏览器装 [Tampermonkey](https://www.tampermonkey.net/) 扩展；
 2. 打开 `dist/media-saver.user.js`，全选复制；
 3. Tampermonkey 面板 → 「添加新脚本」→ 粘贴覆盖 → `Ctrl/Cmd + S` 保存。
