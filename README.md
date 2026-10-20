@@ -10,6 +10,8 @@
 
 仓库地址：<https://github.com/jackbi/tampermonkey-plugin-media-saver>
 
+**GreasyFork 安装**（推荐，能收到版本更新）：<https://greasyfork.org/zh-CN/scripts/601145>
+
 **一键安装**：装好 Tampermonkey 后，直接打开
 <https://raw.githubusercontent.com/jackbi/tampermonkey-plugin-media-saver/main/dist/media-saver.user.js>
 会弹出安装页。国内网络访问 `raw.githubusercontent.com` 不通时，用下面任一方式。
@@ -20,7 +22,7 @@
 2. 打开 `dist/media-saver.user.js`，全选复制；
 3. Tampermonkey 面板 → 「添加新脚本」→ 粘贴覆盖 → `Ctrl/Cmd + S` 保存。
 
-想在 GreasyFork 上架：表单字段、详细描述与同步设置都整理在 [greasyfork/listing.md](greasyfork/listing.md)。
+GreasyFork 的发布材料（表单字段、详细描述、同步设置）整理在 [greasyfork/listing.md](greasyfork/listing.md)。
 
 首次在某些域名上下载时，Tampermonkey 会弹出「是否允许访问 xxx.com」，选**允许**（跨域拿媒体必须走这一步）。
 

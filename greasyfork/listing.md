@@ -1,5 +1,11 @@
 # GreasyFork 发布材料
 
+> **已发布**：<https://greasyfork.org/zh-CN/scripts/601145>（脚本 ID 601145，2026-10-20 发布 v0.2.0）
+>
+> 已开启「源代码同步」（自动模式），源地址是 GitHub raw 的 `dist/media-saver.user.js`；
+> push 到 `main` 且 `@version` 变大后，GreasyFork 会自行拉取更新。
+> 下面的材料留作下次改版或重新上架时参考。
+
 发布地址：<https://greasyfork.org/zh-CN/script_versions/new>
 （登录后也可以从右上角用户菜单里点「发布脚本」进入）
 
